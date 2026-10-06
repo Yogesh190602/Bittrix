@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#fdf4d2" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/og-cover.png" />
+
+    <!--
+      Day/night theme, resolved before first paint. Day is the default; night
+      is used only once a visitor has chosen it with the toggle.
+
+      Every page here is prerendered to static HTML, so if this waited for
+      React a visitor in dark mode would get a white flash on each page load.
+      It must stay inline and blocking in <head>. src/lib/theme.js reads and
+      writes the same attribute and storage key from then on.
+    -->
+    <script>
+      (function () {
+        var theme = "light";
+        try {
+          if (localStorage.getItem("bittrix-theme") === "dark") theme = "dark";
+        } catch (e) {
+          /* Blocked storage falls back to the light theme. */
+        }
+        document.documentElement.dataset.theme = theme;
+        if (theme === "dark") {
+          var meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute("content", "#150a1e");
+        }
+      })();
+    </script>
+
+    <!--
+      Per-route metadata (page title, description, canonical link, Open Graph
+      and JSON-LD) is injected at build time by scripts/prerender.mjs, and kept
+      in sync during client-side navigation by src/components/Seo.jsx.
+      The two tags below are the dev-server fallback only.
+    -->
+    <title data-default>BitTrix Technologies | Technology Training in Theni, Tamil Nadu</title>
+    <meta
+      data-default
+      name="description"
+      content="Learn cybersecurity, artificial intelligence, blockchain, networking, web engineering or game development in Theni. Project-based training, industry mentorship, internships and placement support."
+    />
+  </head>
+  <body>
+    <!--
+      Scroll reveals are rendered by Framer Motion, which bakes their hidden
+      start state into the prerendered HTML. Without JavaScript that state is
+      never animated away and most of the page stays invisible, so undo it.
+    -->
+    <noscript>
+      <style>
+        [style*="opacity:0"] {
+          opacity: 1 !important;
+          transform: none !important;
+        }
+      </style>
+    </noscript>
+
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
