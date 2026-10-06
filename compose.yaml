@@ -12,18 +12,17 @@ services:
         # contact form says online enquiries are not connected.
         VITE_CONTACT_ENDPOINT: ${VITE_CONTACT_ENDPOINT:-}
     container_name: bittrix-web
-    # The reverse proxy in front of it (journal-nginx, ports 80/443 and
-    # HTTPS) is itself a container, so it reaches this one by name,
-    # http://bittrix-web, on its own Docker network.
+    # The server's reverse proxy (/var/www/proxy: ports 80/443 and HTTPS)
+    # is itself a container, so it reaches this one by name,
+    # http://bittrix-web, on the shared "web" network.
     networks:
-      - proxy
+      - web
     # Also on this server's loopback, for checking it with curl.
     ports:
       - "127.0.0.1:8080:80"
     restart: unless-stopped
 
 networks:
-  # Created by the journal project's compose (/var/www/journal).
-  proxy:
-    name: journal_journal-net
+  # Created once on the server: docker network create web
+  web:
     external: true

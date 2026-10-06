@@ -29,25 +29,13 @@ contact form tells visitors online enquiries are not connected yet.
 
 ## Deploy (VPS, Docker)
 
-The image builds the site and serves it with nginx (`nginx.conf`). The
-server's reverse proxy, the `journal-nginx` container, handles ports 80/443
-and HTTPS and passes requests to it by name, `http://bittrix-web`, on its
-Docker network `journal_journal-net` (see `compose.yaml`). Its site config
-is `/var/www/journal/nginx/conf.d/bittrix.conf`; the HTTPS server there
-proxies everything:
-
-```nginx
-resolver 127.0.0.11 valid=10s ipv6=off;    # Docker's DNS: follows rebuilds
-set $bittrix_web http://bittrix-web:80;    # a variable, so the proxy still
-                                           # starts while the site is down
-location / {
-    proxy_pass $bittrix_web;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-```
+The image builds the site and serves it with nginx (`nginx.conf`), as the
+`bittrix-web` container. It doesn't face the internet itself: the server's
+shared reverse proxy (`/var/www/proxy`, container `proxy`) handles ports
+80/443 and HTTPS for every site on the server, and passes
+bittrixtechnologies.com to `http://bittrix-web` on the shared Docker network
+`web` (see `compose.yaml`). The proxy's settings for this site are in
+`/var/www/proxy/conf.d/bittrix.conf`.
 
 The container is also on `127.0.0.1:8080` for checking it with `curl`.
 
@@ -58,6 +46,7 @@ cd /var/www
 git clone https://github.com/Yogesh190602/Bittrix.git bittrix-technologies
 cd bittrix-technologies
 cp .env.example .env    # set VITE_CONTACT_ENDPOINT
+docker network create web    # if the proxy hasn't already
 docker compose up -d --build
 ```
 
