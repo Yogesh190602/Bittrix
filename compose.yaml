@@ -1,0 +1,19 @@
+# Fixed project name, so the container is the same one whatever the folder
+# this is checked out in is called.
+name: bittrix-technologies
+
+services:
+  bittrix-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Read from .env beside this file (copy .env.example). Without it the
+        # contact form says online enquiries are not connected.
+        VITE_CONTACT_ENDPOINT: ${VITE_CONTACT_ENDPOINT:-}
+    container_name: bittrix-web
+    # Only reachable from this server; the reverse proxy in front of it
+    # (journal-nginx) handles ports 80/443 and HTTPS.
+    ports:
+      - "127.0.0.1:8080:80"
+    restart: unless-stopped
