@@ -29,8 +29,27 @@ contact form tells visitors online enquiries are not connected yet.
 
 ## Deploy (VPS, Docker)
 
-The image builds the site and serves it with nginx (`nginx.conf`) on
-`127.0.0.1:8080`, behind the server's reverse proxy.
+The image builds the site and serves it with nginx (`nginx.conf`). The
+server's reverse proxy, the `journal-nginx` container, handles ports 80/443
+and HTTPS and passes requests to it by name, `http://bittrix-web`, on its
+Docker network `journal_journal-net` (see `compose.yaml`). Its site config
+is `/var/www/journal/nginx/conf.d/bittrix.conf`; the HTTPS server there
+proxies everything:
+
+```nginx
+resolver 127.0.0.11 valid=10s ipv6=off;    # Docker's DNS: follows rebuilds
+set $bittrix_web http://bittrix-web:80;    # a variable, so the proxy still
+                                           # starts while the site is down
+location / {
+    proxy_pass $bittrix_web;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+}
+```
+
+The container is also on `127.0.0.1:8080` for checking it with `curl`.
 
 First time:
 
