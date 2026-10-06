@@ -75,43 +75,37 @@ export const internship = [
    `photo` fills the card: put the file in public/testimonials/ and give its
    path, e.g. "/testimonials/priya.jpg". Without one the card shows the
    student's initials. The mascot photos below are stand-ins until the
-   students' own photos arrive, and the programs and batches are still to be
-   confirmed. */
+   students' own photos arrive. */
 export const testimonials = [
   {
     name: "Yogesh",
     photo: "/mascot/secure.webp",
     program: "Cybersecurity",
     batch: "2025",
-    placeholder: true,
   },
   {
     name: "Bairava Santhosh",
     photo: "/mascot/coding.webp",
     program: "Artificial Intelligence",
     batch: "2025",
-    placeholder: true,
   },
   {
     name: "Bharath",
     photo: "/mascot/coffee.webp",
     program: "Web Engineering",
     batch: "2024",
-    placeholder: true,
   },
   {
     name: "Dani",
     photo: "/mascot/hoodie.webp",
     program: "Networking",
     batch: "2024",
-    placeholder: true,
   },
   {
     name: "Joel",
     photo: "/mascot/sign.webp",
     program: "Blockchain",
     batch: "2024",
-    placeholder: true,
   },
 ];
 
