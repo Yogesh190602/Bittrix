@@ -173,7 +173,12 @@ function Header() {
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden border-t border-line bg-surface lg:hidden"
           >
-            <div className="container-shell grid gap-1 py-5">
+            {/* The header is sticky, so a menu taller than the screen could
+               never be scrolled to its last links. On a short screen (a
+               phone on its side) the links go in three columns so the whole
+               menu fits; anything shorter still is capped at the screen
+               below the header bar (h-20) and scrolls itself. */}
+            <div className="container-shell grid max-h-[calc(100dvh-5rem)] gap-1 overflow-y-auto overscroll-contain py-5 [@media(max-height:500px)]:grid-cols-3 [@media(max-height:500px)]:py-3">
               {navigation.map(([label, href]) => (
                 <a
                   key={href}
@@ -185,7 +190,7 @@ function Header() {
                 </a>
               ))}
               <button
-                className="btn-primary mt-3"
+                className="btn-primary col-span-full mt-3"
                 onClick={() => {
                   setOpen(false);
                   onEnquire("Free Demo Class");

@@ -120,8 +120,11 @@ export function TrustSection() {
    header (.page-first) instead of after a full section's spacing. */
 
 export function About({ compact = false, crumbs }) {
+  /* overflow-x-clip: while it tilts with the scroll, the mindset card's
+     near edge swings past the screen edge on a phone on its side; this trims
+     only what is off screen, so the page never scrolls sideways. */
   return (
-    <section id="about" className={`section-space${crumbs ? " page-first" : ""}`}>
+    <section id="about" className={`section-space overflow-x-clip${crumbs ? " page-first" : ""}`}>
       <div className="container-shell">
         {crumbs}
         <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-20">
@@ -450,8 +453,10 @@ export function LearningJourney({ crumbs }) {
 export function Internships({ crumbs }) {
   const onEnquire = useEnquire();
 
+  /* overflow-x-clip: as with About, the tilting code window's edge can
+     swing past the screen edge; only what is off screen is trimmed. */
   return (
-    <section id="internships" className={`section-space${crumbs ? " page-first" : ""}`}>
+    <section id="internships" className={`section-space overflow-x-clip${crumbs ? " page-first" : ""}`}>
       <div className="container-shell">
         {crumbs}
         <div className="grid gap-12 lg:grid-cols-2 lg:gap-24">
