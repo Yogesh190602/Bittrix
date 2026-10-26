@@ -7,8 +7,7 @@ import { useTheme } from "../lib/theme";
    downloads alongside the main bundle). Until the scene is up, the square
    shows a still of it; the canvas then fades in over the still. Without
    WebGL the still is all there is. */
-/* The robot-sign scene. (The previous robot is archived outside the project
-   in bittrix-technologies-archive/hero-backup, with notes on restoring it.) */
+/* The robot-sign scene. */
 const HeroScene = lazy(() => import("./robot-sign/RobotSignScene"));
 
 /* ---------------------------------------------------------------------- */
