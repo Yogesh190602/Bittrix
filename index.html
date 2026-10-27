@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#fdf4d2" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/og-cover.png" />
+    <!-- Icons are cut from the emblem as flat PNGs at the sizes each platform
+         actually asks for. The .ico stays first for browsers that ignore the
+         sized PNGs, and the manifest covers installable/Android cases. -->
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/manifest.webmanifest" />
 
     <!--
       Day/night theme, resolved before first paint. Day is the default; night
