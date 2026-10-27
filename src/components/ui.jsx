@@ -137,26 +137,45 @@ export function Icon({ name = "code", size = 22, className = "" }) {
   );
 }
 
+/* The lockup is artwork now, so the two theme variants are separate files
+   swapped in CSS rather than recoloured in JS. Both carry the artwork's true
+   intrinsic size, which keeps the reserved box identical in every theme and
+   before the image has decoded — no shift, and nothing for React to own. */
 export function Brand({ light = false }) {
+  if (light) {
+    return (
+      <Link to="/" aria-label="BitTrix Technologies home" className="brand">
+        <img
+          src="/logo-lockup-light.png"
+          alt=""
+          width={731}
+          height={192}
+          className="brand-logo"
+          decoding="async"
+        />
+      </Link>
+    );
+  }
+
   return (
-    <Link
-      to="/"
-      aria-label="BitTrix Technologies home"
-      className={`inline-flex items-center gap-3 ${light ? "text-onpanel" : "text-ink"}`}
-    >
-      <span className={`brand-mark ${light ? "brand-mark-light" : ""}`}>
-        <span />
-        <span />
-        <span />
-      </span>
-      <span>
-        <span className="block text-2xl font-extrabold leading-none tracking-tight">
-          BitTrix<span className={light ? "text-onpanel/70" : "text-brand"}>.</span>
-        </span>
-        <span className="mt-1 block text-[9px] font-semibold tracking-[0.29em]">
-          TECHNOLOGIES
-        </span>
-      </span>
+    <Link to="/" aria-label="BitTrix Technologies home" className="brand">
+      <img
+        src="/logo-lockup.png"
+        alt=""
+        width={731}
+        height={192}
+        className="brand-logo brand-logo-day"
+        fetchPriority="high"
+        decoding="async"
+      />
+      <img
+        src="/logo-lockup-light.png"
+        alt=""
+        width={731}
+        height={192}
+        className="brand-logo brand-logo-night"
+        decoding="async"
+      />
     </Link>
   );
 }

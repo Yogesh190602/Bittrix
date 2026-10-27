@@ -365,46 +365,50 @@ form[id] {
   color: var(--c-brand);
 }
 
-.brand-mark {
-  position: relative;
+/* The logo is artwork, so one height token drives the box and the image keeps
+   its own aspect ratio. 36px matches the optical weight of the wordmark this
+   replaces (a 24px line plus its 9px subline) inside the 80px header. */
+.brand {
+  display: inline-flex;
+  align-items: center;
+  /* Neither the link nor the artwork may shrink: a flex squeeze squashes the
+     lockup horizontally, which is exactly the mismatch we are avoiding. */
+  flex: none;
+}
+
+.brand-logo {
   display: block;
-  width: 37px;
-  height: 39px;
-  transform: skewY(-9deg);
+  width: auto;
+  /* 64px in an 80px bar: the mark now leads, exactly as in the supplied
+     lockup, and the wordmark sits at roughly 26px type. */
+  height: var(--brand-logo-h, 64px);
+  max-width: none;
+  flex: none;
+  object-fit: contain;
 }
 
-.brand-mark span {
-  position: absolute;
-  height: 11px;
-  border-radius: 2px;
-  background: var(--c-brand);
+/* Light ink wins on the always-dark footer and on the night theme; the two
+   files share intrinsic dimensions, so swapping them cannot move anything. */
+/* The full lockup is 3.8:1, so on phones it must step down to leave room for
+   the theme and menu buttons: at 320px a 64px lockup forces the layout
+   viewport wider than the device, which is the horizontal-overflow failure
+   this rule prevents. */
+@media (max-width: 430px) {
+  :root {
+    --brand-logo-h: 42px;
+  }
 }
 
-.brand-mark span:nth-child(1) {
-  top: 0;
-  left: 0;
-  width: 30px;
+.brand-logo-night {
+  display: none;
 }
 
-.brand-mark span:nth-child(2) {
-  top: 14px;
-  left: 6px;
-  width: 31px;
-  background: var(--c-purple);
+[data-theme="dark"] .brand-logo-day {
+  display: none;
 }
 
-.brand-mark span:nth-child(3) {
-  top: 28px;
-  left: 0;
-  width: 30px;
-}
-
-.brand-mark-light span {
-  background: var(--c-on-panel) !important;
-}
-
-.brand-mark-light span:nth-child(2) {
-  opacity: 0.65;
+[data-theme="dark"] .brand-logo-night {
+  display: block;
 }
 
 .pill {

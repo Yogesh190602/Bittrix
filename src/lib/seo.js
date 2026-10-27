@@ -13,6 +13,10 @@ const organisation = {
   "@id": abs("/#organisation"),
   name: SITE.name,
   url: SITE.origin,
+  /* The square emblem at 512px: large enough for the logo Google shows in
+     brand results, which rejects anything under 112px. */
+  logo: abs("/icon-512.png"),
+  image: abs("/og-cover.png"),
   slogan: SITE.tagline,
   description:
     "Technology education in Theni, Tamil Nadu: cybersecurity, artificial intelligence, blockchain, networking, web engineering and game development, taught through practical projects, mentorship and internships.",
