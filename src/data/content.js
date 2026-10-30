@@ -65,47 +65,40 @@ export const internship = [
   },
 ];
 
-/* Student cards for the home page's testimonials section. Only list
-   students who are happy to appear, with their permission.
+/* Team cards for the home page's "people behind BitTrix" section.
+
+   `photo` fills the card: put the file in public/testimonials/ and give its
+   path, e.g. "/testimonials/yogesh.webp". Without one the card shows the
+   person's initials.
 
    An entry marked `placeholder: true` shows on the dev server so the layout
    can be previewed, and is dropped from production builds. With no real
-   entries the section doesn't render at all.
-
-   `photo` fills the card: put the file in public/testimonials/ and give its
-   path, e.g. "/testimonials/priya.jpg". Without one the card shows the
-   student's initials. The mascot photos below are stand-ins until the
-   students' own photos arrive. */
+   entries the section doesn't render at all. */
 export const testimonials = [
   {
     name: "Yogesh",
-    photo: "/mascot/secure.webp",
-    program: "Cybersecurity",
-    batch: "2025",
+    photo: "/testimonials/yogesh.webp",
+    focus: "Security · Linux · Ethical hacking",
   },
   {
     name: "Bairava Santhosh",
-    photo: "/mascot/coding.webp",
-    program: "Artificial Intelligence",
-    batch: "2025",
+    photo: "/testimonials/bairava-santhosh.webp",
+    focus: "Machine learning · LLMs · Computer vision",
   },
   {
     name: "Bharath",
-    photo: "/mascot/coffee.webp",
-    program: "Web Engineering",
-    batch: "2024",
+    photo: "/testimonials/bharath.webp",
+    focus: "React · APIs · Databases",
   },
   {
     name: "Dani",
-    photo: "/mascot/hoodie.webp",
-    program: "Networking",
-    batch: "2024",
+    photo: "/testimonials/dani.webp",
+    focus: "Routing · Cloud · Infrastructure",
   },
   {
     name: "Joel",
-    photo: "/mascot/sign.webp",
-    program: "Blockchain",
-    batch: "2024",
+    photo: "/testimonials/joel.webp",
+    focus: "Solidity · Smart contracts · Web3",
   },
 ];
 
