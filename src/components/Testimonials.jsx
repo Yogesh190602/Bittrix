@@ -28,12 +28,6 @@ function initials(name) {
     .join("");
 }
 
-function details(entry) {
-  return [entry.program, entry.batch && `Batch of ${entry.batch}`]
-    .filter(Boolean)
-    .join(" · ");
-}
-
 /* Where a card sits for its position in the deck (0 is the top card). The
    fan narrows its spacing as the list grows so it keeps the same width, and
    layers from the middle out so the centre card is the one fully in view. */
@@ -54,7 +48,7 @@ function placement(position, count, mode) {
   return { x: depth * 5, y: depth * 5, r: STACK_TILT[depth], z: (count - position) * 2 };
 }
 
-/* The photo fills the card above its caption. Without one, the student's
+/* The photo fills the card above its caption. Without one, the person's
    initials take its place. */
 function Photo({ entry }) {
   return (
@@ -277,7 +271,7 @@ function CardStack({ items, onOpen, paused }) {
               className={className}
               style={{ "--x": `${x}px`, "--y": `${y}px`, "--r": `${r}deg`, zIndex: place.z }}
               inert={mode === "stack" && !isTop}
-              aria-label={`View ${entry.name}'s card`}
+              aria-label={`View ${entry.name}'s profile`}
               onClick={() => cardClick(entry)}
               onPointerDown={draggable ? pointerDown : undefined}
               onPointerMove={draggable ? pointerMove : undefined}
@@ -287,7 +281,6 @@ function CardStack({ items, onOpen, paused }) {
               <Photo entry={entry} />
               <span className="tstack-who">
                 <b>{entry.name}</b>
-                <small>{details(entry)}</small>
               </span>
               <span className="tstack-open" aria-hidden="true">
                 <Icon name="expand" size={13} />
@@ -299,16 +292,16 @@ function CardStack({ items, onOpen, paused }) {
 
       {count > 1 && (
         <p className="tstack-hint">
-          {mode === "stack" ? "Drag the top card aside for the next student." : "Pick any card to see it up close."}
+          {mode === "stack" ? "Drag the top card aside for the next team member." : "Pick any card to see it up close."}
         </p>
       )}
 
       {count > 1 && mode === "stack" && (
         <div className="tstack-nav">
-          <button type="button" className="icon-button" aria-label="Previous testimonial" onClick={previous}>
+          <button type="button" className="icon-button" aria-label="Previous team member" onClick={previous}>
             <Icon name="arrow" size={18} className="rotate-180" />
           </button>
-          <button type="button" className="icon-button" aria-label="Next testimonial" onClick={() => throwTop("right")}>
+          <button type="button" className="icon-button" aria-label="Next team member" onClick={() => throwTop("right")}>
             <Icon name="arrow" size={18} />
           </button>
         </div>
@@ -331,9 +324,9 @@ export function Testimonials() {
     <section className="section-space">
       <div className="container-shell">
         <SectionHeading
-          eyebrow="IN THEIR OWN WORDS"
-          title={<>Real students.<br /><span className="text-brand">Real stories.</span></>}
-          description="What learners say about building with us: the projects, the mentors, and the step that came next."
+          eyebrow="THE PEOPLE BEHIND BITTRIX"
+          title={<>Practitioners.<br /><span className="text-brand">Mentors. Builders.</span></>}
+          description="The people who design the programs, review your project work and answer the questions that come up along the way."
           centered
         />
 
@@ -345,7 +338,7 @@ export function Testimonials() {
       {open && (
         <Dialog title={open.name} onClose={() => setOpen(null)}>
           {open.photo && <img className="tstack-photo" src={open.photo} alt={open.name} />}
-          <p className="text-sm font-semibold text-brand">{details(open)}</p>
+          {open.focus && <p className="text-sm leading-6 text-muted">{open.focus}</p>}
         </Dialog>
       )}
     </section>
