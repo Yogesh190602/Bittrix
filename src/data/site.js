@@ -44,13 +44,13 @@ export const apps = [
   {
     name: "BitTrix School",
     description: "Technology learning for school students",
-    href: "https://schools.bittrix.com",
+    href: "https://schools.bittrixtechnologies.com/",
     icon: "school",
   },
   {
     name: "BitTrix Lab",
     description: "Level up your hands-on skills",
-    href: "",
+    href: "https://labs.bittrixtechnologies.com/",
     icon: "flask",
   },
 ];
