@@ -2277,6 +2277,92 @@ html:not([data-theme="dark"]) .tone-plum .program-art {
 }
 
 /* ---------------------------------------------------------------------- */
+/* App switcher: the grid button's panel of other BitTrix platforms        */
+/* ---------------------------------------------------------------------- */
+
+.app-switcher-button {
+  color: var(--c-brand);
+}
+
+.app-switcher-button.is-open {
+  background: var(--c-tint);
+  border-color: color-mix(in oklab, var(--c-brand) 35%, transparent);
+}
+
+/* Hung from the header bar's right edge (see AppSwitcher), flush with the
+   buttons above it, and never wider than the bar itself. */
+.app-switcher-panel {
+  position: absolute;
+  top: calc(100% - 8px);
+  right: 0;
+  z-index: 50;
+  width: min(22rem, 100%);
+  overflow: hidden;
+  border: 1px solid var(--c-line);
+  border-radius: 20px;
+  background: var(--c-surface-raised);
+  box-shadow: 0 24px 60px -24px var(--c-shadow-brand);
+  transform-origin: top right;
+}
+
+/* The lit edge along the top of the panel. */
+.app-switcher-panel::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 18%;
+  right: 18%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c-purple), transparent);
+}
+
+.app-switcher-head {
+  padding: 1.1rem 1.25rem 1rem;
+  border-bottom: 1px solid var(--c-line);
+}
+
+.app-switcher-item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.75rem;
+  border-radius: 14px;
+  transition: background 150ms;
+}
+
+a.app-switcher-item:hover,
+a.app-switcher-item:focus-visible {
+  background: var(--c-tint);
+}
+
+.app-switcher-item.is-disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.app-switcher-icon {
+  display: flex;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--c-line);
+  border-radius: 12px;
+  color: var(--c-brand);
+  background: var(--c-tint-soft);
+}
+
+.app-switcher-soon {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--c-brand);
+  background: var(--c-tint);
+}
+
+/* ---------------------------------------------------------------------- */
 /* Programme accordions on phones                                          */
 /*                                                                         */
 /* In the single-column layout a fixed-height card has to be as tall as    */

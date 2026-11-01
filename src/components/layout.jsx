@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link, NavLink, Outlet, useLocation } from "react-router-dom";
-import { navigation, footerLinks, CONTACT } from "../data/site";
+import { apps, navigation, footerLinks, CONTACT } from "../data/site";
 import { programs } from "../data/programs";
 import { useEnquire } from "../lib/enquire";
 import { Brand, Icon, ScrollProgress, ThemeToggle } from "./ui";
@@ -93,16 +93,123 @@ function useHideOnScroll(pinned) {
   return [hidden, setHidden];
 }
 
+/* The grid button that jumps to the other BitTrix platforms. Its panel is
+   positioned against the header bar rather than the button, so on a phone
+   it can sit flush with the page gutter instead of hanging off the left
+   edge of the screen. */
+function AppSwitcher({ open, onOpenChange }) {
+  const root = useRef(null);
+  const button = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handlePointer = (event) => {
+      if (!root.current?.contains(event.target)) onOpenChange(false);
+    };
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onOpenChange(false);
+        button.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", handlePointer);
+    window.addEventListener("keydown", handleEscape);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointer);
+      window.removeEventListener("keydown", handleEscape);
+    };
+  }, [open, onOpenChange]);
+
+  return (
+    <div ref={root}>
+      <button
+        ref={button}
+        type="button"
+        className={`icon-button app-switcher-button${open ? " is-open" : ""}`}
+        onClick={() => onOpenChange(!open)}
+        aria-expanded={open}
+        aria-controls="app-switcher"
+        aria-label={open ? "Close the BitTrix apps menu" : "Open the BitTrix apps menu"}
+      >
+        <Icon name="apps" size={20} />
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            id="app-switcher"
+            className="app-switcher-panel"
+            initial={{ opacity: 0, y: -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.98 }}
+            transition={{ duration: 0.18, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <div className="app-switcher-head">
+              <p className="text-sm font-bold">BitTrix Technologies</p>
+              <p className="mt-0.5 text-xs text-muted">Visit our other platforms</p>
+            </div>
+
+            <ul className="p-2">
+              {apps.map((app) => {
+                const body = (
+                  <>
+                    <span className="app-switcher-icon">
+                      <Icon name={app.icon} size={19} />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="flex items-center gap-2 text-sm font-bold">
+                        {app.name}
+                        {!app.href && <span className="app-switcher-soon">Coming soon</span>}
+                      </span>
+                      <span className="mt-0.5 block text-xs leading-5 text-muted">
+                        {app.description}
+                      </span>
+                    </span>
+                  </>
+                );
+
+                return (
+                  <li key={app.name}>
+                    {app.href ? (
+                      <a href={app.href} className="app-switcher-item">
+                        {body}
+                      </a>
+                    ) : (
+                      <div className="app-switcher-item is-disabled" aria-disabled="true">
+                        {body}
+                      </div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 function Header() {
   const onEnquire = useEnquire();
   const { pathname } = useLocation();
   const [open, setOpen] = useState(false);
+  const [appsOpen, setAppsOpen] = useState(false);
   const menuButton = useRef(null);
-  const [hidden, setHidden] = useHideOnScroll(open);
+  const [hidden, setHidden] = useHideOnScroll(open || appsOpen);
 
   useEffect(() => {
     setOpen(false);
+    setAppsOpen(false);
   }, [pathname]);
+
+  /* One panel at a time: opening either menu closes the other. */
+  useEffect(() => {
+    if (open) setAppsOpen(false);
+  }, [open]);
+  useEffect(() => {
+    if (appsOpen) setOpen(false);
+  }, [appsOpen]);
 
   useEffect(() => {
     if (!open) return;
@@ -123,7 +230,7 @@ function Header() {
          it is off screen. */
       onFocusCapture={() => setHidden(false)}
     >
-      <div className="container-shell flex h-20 items-center justify-between gap-5">
+      <div className="container-shell relative flex h-20 items-center justify-between gap-5">
         <Brand />
 
         <nav aria-label="Main navigation" className="hidden items-center gap-7 lg:flex">
@@ -135,6 +242,7 @@ function Header() {
         </nav>
 
         <div className="flex items-center gap-2.5">
+          <AppSwitcher open={appsOpen} onOpenChange={setAppsOpen} />
           <ThemeToggle />
 
           <button
