@@ -37,6 +37,24 @@ export const navigation = [
   ["Contact", "/contact"],
 ];
 
+/* The other BitTrix platforms, listed in the header's app switcher. Leave
+   `href` empty until a platform is live: it then shows as "coming soon"
+   rather than a link that goes nowhere. */
+export const apps = [
+  {
+    name: "BitTrix School",
+    description: "Technology learning for school students",
+    href: "https://schools.bittrixtechnologies.com/",
+    icon: "school",
+  },
+  {
+    name: "BitTrix Lab",
+    description: "Level up your hands-on skills",
+    href: "https://labs.bittrixtechnologies.com/",
+    icon: "flask",
+  },
+];
+
 export const footerLinks = [
   ["About Us", "/about"],
   ["Programs", "/programs"],

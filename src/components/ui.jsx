@@ -115,6 +115,17 @@ export function Icon({ name = "code", size = 22, className = "" }) {
       </>
     ),
     moon: <path d="M20 14.2A8.4 8.4 0 0 1 9.8 4a8.4 8.4 0 1 0 10.2 10.2Z" />,
+    apps: (
+      <>
+        {[5, 12, 19].flatMap((cy) =>
+          [5, 12, 19].map((cx) => (
+            <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r="1.6" fill="currentColor" stroke="none" />
+          )),
+        )}
+      </>
+    ),
+    school: <path d="m2 9 10-5 10 5-10 5zm4 2v5c3 2.7 9 2.7 12 0v-5M22 9v6" />,
+    flask: <path d="M9 3h6M10 3v6l-5.5 9.5A1.7 1.7 0 0 0 6 21h12a1.7 1.7 0 0 0 1.5-2.5L14 9V3M7.5 14h9" />,
   };
 
   return (
